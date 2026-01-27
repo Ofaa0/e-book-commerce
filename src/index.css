@@ -1,0 +1,11 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+  @theme{
+    --color-purple-them: #d9176c;
+    --color-white-bg: #F5F5F5;
+    --color-secondery-bg: #3B2F4A;
+    --font-open-sans: "Open Sans", sans-serif;
+  }

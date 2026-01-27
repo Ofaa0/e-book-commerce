@@ -1,0 +1,1 @@
+export const url = "https://bookstore.eraasoft.pro/api"

@@ -1,0 +1,1 @@
+export const navLinks = ["Home" , "Books" , "About us"] 
