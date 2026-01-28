@@ -57,7 +57,7 @@ const LoginPage = () => {
             <ErrorMessage
               component={"p"}
               name="email"
-              className="text-red-500"
+              className="text-red-500 text-[14px] lg:text-[16px]"
             />
             <div className="w-full relative">
               <InputField
@@ -85,7 +85,7 @@ const LoginPage = () => {
             <ErrorMessage
               component={"p"}
               name="password"
-              className="text-red-500 pb-3"
+              className="text-red-500 text-[14px] lg:text-[16px] pb-3"
             />
           </div>
           <div className="self-start w-full flex justify-between mb-10">

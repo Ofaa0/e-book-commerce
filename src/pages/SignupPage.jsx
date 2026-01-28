@@ -3,7 +3,10 @@ import InputField from "../components/loginComponents/InputField";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { url } from "../store";
-import { validationSignupSchema } from "../components/loginComponents/loginValidator";
+import {
+  validationSignupMobileSchema,
+  validationSignupSchema,
+} from "../components/loginComponents/loginValidator";
 import toast from "react-hot-toast";
 import { AiTwotoneEyeInvisible } from "react-icons/ai";
 import { AiTwotoneEye } from "react-icons/ai";
@@ -21,16 +24,24 @@ const SignupPage = () => {
   });
   const navigate = useNavigate();
   const handleSignup = async (vals) => {
-    const { firstName, lastName, email, password, cPassword } = vals;
+    const valsInfo = isMobile
+      ? {
+          first_name: vals.firstName,
+          last_name: vals.lastName,
+          email: vals.email,
+          password: vals.password,
+          password_confirmation: vals.cPassword,
+        }
+      : {
+          first_name: vals.fullName.split(" ")[0] || "",
+          last_name: vals.fullName.split(" ")[1] || "",
+          email: vals.email,
+          password: vals.password,
+          password_confirmation: vals.cPassword,
+        };
     if (vals.agree) {
       try {
-        const res = await axios.post(url + "/register", {
-          first_name: firstName,
-          last_name: lastName,
-          email: email,
-          password: password,
-          password_confirmation: cPassword,
-        });
+        const res = await axios.post(url + "/register", valsInfo);
         console.log("registration success:", res.data);
         toast.success("account is created");
         navigate("/login");
@@ -45,42 +56,72 @@ const SignupPage = () => {
   return (
     <div className="w-full min-h-dvh bg-white-bg flex justify-center items-start pb-60.5 lg:pb-111.5">
       <Formik
-        initialValues={{
-          firstName: "",
-          lastName: "",
-          email: "",
-          password: "",
-          cPassword: "",
-          agree: false,
-        }}
+        initialValues={
+          isMobile
+            ? {
+                firstName: "",
+                lastName: "",
+                email: "",
+                password: "",
+                cPassword: "",
+                agree: false,
+              }
+            : {
+                fullName: "",
+                email: "",
+                password: "",
+                cPassword: "",
+                agree: false,
+              }
+        }
         onSubmit={handleSignup}
-        validationSchema={validationSignupSchema}
+        validationSchema={
+          isMobile ? validationSignupSchema : validationSignupMobileSchema
+        }
       >
         <Form className="mt-15 w-141.75 flex flex-col justify-center items-center px-4 lg:px-0">
-          <div className="w-full grid grid-cols-2 gap-4">
-            <InputField
-              type="text"
-              name="firstName"
-              label="First Name"
-              placeHolder="John"
-            />
-            <InputField
-              type="text"
-              name="lastName"
-              label="Last Name"
-              placeHolder="Smith"
-            />
-          </div>
+          {isMobile ? (
+            <div className="w-full grid grid-cols-2 gap-4">
+              <InputField
+                type="text"
+                name="firstName"
+                label="First Name"
+                placeHolder="John"
+              />
+              <InputField
+                type="text"
+                name="lastName"
+                label="Last Name"
+                placeHolder="Smith"
+              />
+            </div>
+          ) : (
+            <>
+              <div className="w-full">
+                <InputField
+                  type="text"
+                  name="fullName"
+                  label="Name"
+                  placeHolder="John Smith"
+                />
+                <ErrorMessage
+                  component={"p"}
+                  name="fullName"
+                  className="text-red-500 text-[14px] lg:text-[16px] py-4"
+                />
+              </div>
+            </>
+          )}
           <div className="w-full grid grid-cols-2 gap-4">
             <ErrorMessage
               component={"p"}
               name="firstName"
-              className="text-red-500"
+              className="text-red-500 text-[14px] lg:text-[16px]"
             />
             <ErrorMessage
               component={"p"}
               name="lastName"
-              className="text-red-500"
+              className="text-red-500 text-[14px] lg:text-[16px]"
             />
           </div>
           <div className="w-full flex flex-col gap-6">
@@ -93,11 +134,11 @@ const SignupPage = () => {
             <ErrorMessage
               component={"p"}
               name="email"
-              className="text-red-500"
+              className="text-red-500 text-[14px] lg:text-[16px]"
             />
             <div className="w-full relative">
               <InputField
-                type={isHiddenPass ? "password" : "text"}
+                type={isHiddenPass ? "text" : "password"}
                 name="password"
                 label="Password"
                 placeHolder={!isMobile ? "************" : "Enter password"}
@@ -122,11 +163,11 @@ const SignupPage = () => {
             <ErrorMessage
               component={"p"}
               name="password"
-              className="text-red-500 pb-3"
+              className="text-red-500 text-[14px] lg:text-[16px] pb-3"
             />
             <div className="w-full relative">
               <InputField
-                type={isHiddenPass ? "password" : "text"}
+                type={isHiddenPass ? "text" : "password"}
                 name="cPassword"
                 label="Confirm Password"
                 placeHolder={!isMobile ? "************" : "Enter password"}
@@ -151,7 +192,7 @@ const SignupPage = () => {
             <ErrorMessage
               component={"p"}
               name="cPassword"
-              className="text-red-500 pb-3"
+              className="text-red-500 text-[14px] lg:text-[16px] pb-3"
             />
           </div>
           <div className="self-start w-full flex justify-between mb-10">

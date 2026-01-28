@@ -3,7 +3,7 @@ import { Field } from "formik";
 const InputField = ({ name, label , type, placeHolder}) => {
   return (
     <label
-      className="text-black pb-2 text-[16px] lg:text-[18px] font-semibold leading-[21.75px]"
+      className="text-black pb-2 text-[16px] lg:text-[18px] font-semibold leading-[21.75px] w-full"
       htmlFor=""
     >
       {label} <br />
