@@ -8,7 +8,7 @@ import { Toaster } from "react-hot-toast";
 function App() {
   return (
     <>
-      <div className="w-full h-dvh bg-[#F5F5F5] font-open-sans">
+      <div className="w-full h-dvh bg-[#F5F5F5] font-open!">
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<MainLayout />}>

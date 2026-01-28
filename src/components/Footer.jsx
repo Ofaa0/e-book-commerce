@@ -9,7 +9,7 @@ import { FaEarthAmericas } from "react-icons/fa6";
 
 const Footer = () => {
   return (
-    <div className="w-full py-30 bg-secondery-bg flex justify-center items-center">
+    <div className="w-full py-30 bg-secondery-bg justify-center items-center hidden lg:flex">
       <div className="container flex flex-col justify-center items-center w-full h-full">
         <div
           className="flex justify-between items-center w-full border-b border-gray-400

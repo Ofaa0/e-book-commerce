@@ -3,10 +3,10 @@ import logo from "../../../public/logo.png";
 import { navLinks } from "../../localStore";
 const Navbar = () => {
   const btnStyle =
-    "py-3 px-4 font-open-sans border-purple-them border rounded-lg cursor-pointer  duration-300";
+    "py-3 px-4 font-open border-purple-them border rounded-lg cursor-pointer  duration-300";
 
   return (
-    <header className="bg-[url(../../../public/headerBg.png)] w-full h-84.5 bg-left bg-cover bg-no-repeat relative">
+    <header className="bg-[url(../../../public/headerBg.png)] w-full h-84.5 bg-left bg-cover bg-no-repeat relative hidden lg:block">
       <div className="bg-black/70 w-full h-full absolute left-0 top-0"></div>
       <nav className="bg-white/20 backdrop-blur-[1px] w-full h-23 border-b flex justify-center">
         <div className="container w-full h-full px-25 flex justify-between items-center">
