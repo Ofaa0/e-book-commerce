@@ -4,10 +4,10 @@ import Footer from "../components/Footer";
 
 const MainLayout = () => {
   return (
-    <div className="w-full h-dvh bg-amber-600">
+    <div className="w-full h-dvh bg-white-bg">
       <Navbar />
       <Outlet />
-      <Footer/>
+      <Footer />
     </div>
   );
 };

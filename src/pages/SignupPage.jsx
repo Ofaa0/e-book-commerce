@@ -16,6 +16,7 @@ import google from "../../public/google.png";
 import facebook from "../../public/facebook.png";
 import { useState } from "react";
 import { useMediaQuery } from "react-responsive";
+import BackBtnPageName from "../components/loginComponents/BackBtnPageName";
 
 const SignupPage = () => {
   const [isHiddenPass, setIsHiddenPass] = useState(false);
@@ -80,6 +81,7 @@ const SignupPage = () => {
         }
       >
         <Form className="mt-15 w-141.75 flex flex-col justify-center items-center px-4 lg:px-0">
+          <BackBtnPageName pageName="Create account" />
           {isMobile ? (
             <div className="w-full grid grid-cols-2 gap-4">
               <InputField

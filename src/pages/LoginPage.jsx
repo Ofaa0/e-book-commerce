@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { validationLoginSchema } from "../components/loginComponents/loginValidator";
 import { AiTwotoneEyeInvisible } from "react-icons/ai";
 import { AiTwotoneEye } from "react-icons/ai";
+import { MdOutlineArrowBackIos } from "react-icons/md";
 // images
 import google from "../../public/google.png";
 import facebook from "../../public/facebook.png";
@@ -11,42 +12,55 @@ import axios from "axios";
 import { url } from "../store";
 import toast from "react-hot-toast";
 import { useMediaQuery } from "react-responsive";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import BackBtnPageName from "../components/loginComponents/BackBtnPageName";
 
 const LoginPage = () => {
   const [isHiddenPass, setIsHiddenPass] = useState(false);
+  const [userTkn, setUserTkn] = useState();
+  const [isRememberMe, setIsRememberMe] = useState(false);
+
   const isMobile = useMediaQuery({
     query: "(min-width: 443px)",
   });
   const navigate = useNavigate();
   const handleLogin = async (vals) => {
-    const { email, password } = vals;
+    const { email, password, rememberMe } = vals;
+    setIsRememberMe(rememberMe);
     try {
       const res = await axios.post(url + "/login", {
         email: email,
         password: password,
       });
       console.log("Login success:", res.data);
+      setUserTkn(res.data?.data?.token);
       toast.success(`welcome, ${res.data?.data?.user?.first_name}`);
+
       navigate("/");
     } catch (err) {
       console.error("Login failed");
       toast.error("wrong email or password");
     }
   };
+  useEffect(() => {
+    if (userTkn) {
+      if (isRememberMe)
+        localStorage.setItem("eUserTkn", JSON.stringify(userTkn));
+      else sessionStorage.setItem("eUserTkn", JSON.stringify(userTkn));
+    }
+  }, [userTkn]);
   return (
-    <div className="w-full min-h-dvh bg-white-bg flex justify-center items-start pb-60.5 lg:pb-111.5">
+    <div className="w-full min-h-dvh bg-white-bg flex justify-center items-start pb-60.5 lg:pb-111.5 relative">
       <Formik
         initialValues={{ email: "", password: "", rememberMe: false }}
         onSubmit={handleLogin}
         validationSchema={validationLoginSchema}
       >
         <Form className="mt-15 w-141.75 flex flex-col justify-center items-center px-4 lg:px-0">
-          {isMobile && (
-            <h1 className="text-purple-them mb-10 font-semibold text-[16px] leading-[21.75px]">
-              Welcome Back!
-            </h1>
-          )}
+          <h1 className="text-purple-them mb-10 font-semibold text-[16px] leading-[21.75px] hidden lg:block">
+            Welcome Back!
+          </h1>
+          <BackBtnPageName pageName="Log in" />
           <div className="w-full flex flex-col gap-6">
             <InputField
               type="email"
@@ -61,7 +75,7 @@ const LoginPage = () => {
             />
             <div className="w-full relative">
               <InputField
-                type={isHiddenPass ? "password" : "text"}
+                type={isHiddenPass ? "text" : "password"}
                 name="password"
                 label="Password"
                 placeHolder={!isMobile ? "************" : "Enter password"}
@@ -88,7 +102,7 @@ const LoginPage = () => {
               className="text-red-500 text-[14px] lg:text-[16px] pb-3"
             />
           </div>
-          <div className="self-start w-full flex justify-between mb-10">
+          <div className="self-start w-full flex justify-between mb-10 mt-4">
             <label
               className="flex items-center gap-1 text-[#222222] cursor-pointer text-[12px] lg:text-[16px]"
               htmlFor="rememberMe"
@@ -101,7 +115,10 @@ const LoginPage = () => {
               />{" "}
               Remember me
             </label>
-            <Link className="text-purple-them text-[14px] lg:text-[16px] leading-[21.75px]">
+            <Link
+              to={"/forget-password"}
+              className="text-purple-them text-[14px] lg:text-[16px] leading-[21.75px]"
+            >
               Forget password?
             </Link>
           </div>
