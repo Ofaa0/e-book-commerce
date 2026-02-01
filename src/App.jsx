@@ -7,6 +7,7 @@ import { Toaster } from "react-hot-toast";
 import ForgetPasswordPage from "./pages/ForgetPasswordPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ProtectedHomeRoute from "./routes/ProtectedHomeRoute";
+import AboutUsPage from "./pages/AboutUsPage";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
                 path="/forget-password"
                 element={<ForgetPasswordPage />}
               ></Route>
+              <Route path="about" element={<AboutUsPage />}></Route>
               <Route path="*" element={<NotFoundPage />}></Route>
             </Route>
           </Routes>
