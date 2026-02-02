@@ -1,11 +1,9 @@
 import { Navigate } from "react-router-dom";
+import { useAuthStore } from "../store";
 
 const ProtectedHomeRoute = ({ children }) => {
-  const currentUserTkn =
-    JSON.parse(localStorage.getItem("eUserTkn")) ||
-    JSON.parse(sessionStorage.getItem("eUserTkn")) ||
-    "";
-  if (!currentUserTkn) return <Navigate to={"/login"} replace />;
+  const {token}=useAuthStore()
+  if (!token) return <Navigate to={"/login"} replace />;
   return children;
 };
 

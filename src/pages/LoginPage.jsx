@@ -4,21 +4,20 @@ import { Link, useNavigate } from "react-router-dom";
 import { validationLoginSchema } from "../components/loginComponents/loginValidator";
 import { AiTwotoneEyeInvisible } from "react-icons/ai";
 import { AiTwotoneEye } from "react-icons/ai";
-import { MdOutlineArrowBackIos } from "react-icons/md";
+//import { MdOutlineArrowBackIos } from "react-icons/md";
 // images
 import google from "../../public/google.png";
 import facebook from "../../public/facebook.png";
 import axios from "axios";
-import { url } from "../store";
+import { url, useAuthStore } from "../store";
 import toast from "react-hot-toast";
 import { useMediaQuery } from "react-responsive";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import BackBtnPageName from "../components/loginComponents/BackBtnPageName";
 
 const LoginPage = () => {
   const [isHiddenPass, setIsHiddenPass] = useState(false);
-  const [userTkn, setUserTkn] = useState();
-  const [isRememberMe, setIsRememberMe] = useState(false);
+  const { authLogin } = useAuthStore();
 
   const isMobile = useMediaQuery({
     query: "(min-width: 443px)",
@@ -26,29 +25,20 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const handleLogin = async (vals) => {
     const { email, password, rememberMe } = vals;
-    setIsRememberMe(rememberMe);
     try {
       const res = await axios.post(url + "/login", {
         email: email,
         password: password,
       });
-      console.log("Login success:", res.data);
-      setUserTkn(res.data?.data?.token);
+      const userTkn = res.data?.data?.token;
+      authLogin(userTkn, rememberMe);
       toast.success(`welcome, ${res.data?.data?.user?.first_name}`);
-
       navigate("/");
     } catch (err) {
       console.error("Login failed");
       toast.error("wrong email or password");
     }
   };
-  useEffect(() => {
-    if (userTkn) {
-      if (isRememberMe)
-        localStorage.setItem("eUserTkn", JSON.stringify(userTkn));
-      else sessionStorage.setItem("eUserTkn", JSON.stringify(userTkn));
-    }
-  }, [userTkn]);
   return (
     <div className="w-full min-h-dvh bg-white-bg flex justify-center items-start pb-60.5 lg:pb-111.5 relative">
       <Formik

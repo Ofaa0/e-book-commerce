@@ -15,7 +15,20 @@ import marker from "../public/marker.png";
 import phone from "../public/phone.png";
 import comment from "../public/comment.png";
 
-export const navLinks = ["Home", "Books", "About us"];
+export const navLinks = [
+  {
+    link: "Home",
+    path: "/",
+  },
+  {
+    link: "Books",
+    path: "/books",
+  },
+  {
+    link: "About us",
+    path: "/about",
+  },
+];
 export const bestSeller = [book1, book2, book3, book4, book5, book6];
 export const prosList = [
   {

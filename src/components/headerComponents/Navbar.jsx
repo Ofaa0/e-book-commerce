@@ -1,19 +1,47 @@
 import { Link, useLocation } from "react-router-dom";
 import logo from "../../../public/logo.png";
-import { navLinks } from "../../localStore";
 import { IoSearchOutline } from "react-icons/io5";
 import { GrMicrophone } from "react-icons/gr";
+import { url, useAuthStore, useUserInfoStore } from "../../store";
+import { FaRegHeart } from "react-icons/fa";
+import { GrCart } from "react-icons/gr";
+import { FaCircleUser } from "react-icons/fa6";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Navbar = () => {
   const { pathname } = useLocation();
+  const { token } = useAuthStore();
   const isInfoPages = pathname == "/login" || pathname == "/signup";
   const isAboutOrInfoPage =
     pathname == "/login" || pathname == "/signup" || pathname == "/about";
   console.log(isInfoPages, pathname);
-
+  const [userInfo, setUserInfo] = useState({});
   const btnStyle =
     "py-3 px-4 font-open border-purple-them border rounded-lg cursor-pointer  duration-300";
 
+  const getUserProfileInfo = async () => {
+    console.log(token);
+    try {
+      const res = await axios.get(url + "/profile", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(res.data.data);
+      setUserInfo({
+        firstName: res.data?.data?.first_name,
+        lastName: res.data?.data?.last_name,
+        email: res.data?.data?.email,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    if (token) getUserProfileInfo();
+  }, [token]);
   return (
     <header
       className={`bg-[url(../../../public/headerBg1.png)] w-full ${isInfoPages ? "h-84.5" : "h-dvh"} bg-left bg-cover bg-no-repeat relative ${isInfoPages ? "hidden" : "flex"} lg:flex justify-center items-center`}
@@ -55,29 +83,51 @@ const Navbar = () => {
               <h1 className="">Bookshop</h1>
             </div>
             <div className="flex gap-10 items-center">
-              {navLinks.map((link, index) => (
-                <Link key={index + 1} className="font-semibold">
-                  {link}
-                </Link>
-              ))}
+              <Link className="font-semibold" to={"/"}>
+                Home
+              </Link>
+              <Link className="font-semibold" to={"/books"}>
+                Books
+              </Link>
+              <Link className="font-semibold" to={"/about"}>
+                About Us
+              </Link>
             </div>
           </div>
-          <div className="flex gap-3 items-center">
-            <Link
-              to={"/login"}
-              className={btnStyle + " bg-purple-them hover:bg-purple-them/70"}
-            >
-              Log in
-            </Link>
-            <Link
-              to={"/signup"}
-              className={
-                btnStyle + " bg-white text-purple-them  hover:bg-white/70"
-              }
-            >
-              Sign Up{" "}
-            </Link>
-          </div>
+          {!token ? (
+            <div className="flex gap-3 items-center">
+              <Link
+                to={"/login"}
+                className={btnStyle + " bg-purple-them hover:bg-purple-them/70"}
+              >
+                Log in
+              </Link>
+              <Link
+                to={"/signup"}
+                className={
+                  btnStyle + " bg-white text-purple-them  hover:bg-white/70"
+                }
+              >
+                Sign Up{" "}
+              </Link>
+            </div>
+          ) : (
+            <div className="flex gap-6 items-center">
+              <FaRegHeart className="text-2xl" />
+              <GrCart className="text-2xl" />
+              <div className="flex items-center gap-3">
+                <FaCircleUser className="text-4xl" />
+                <div className="flex flex-col">
+                  <h1 className="font-semibold text-[16px] capitalize">
+                    {userInfo.firstName || ""} {userInfo.lastName || ""}
+                  </h1>
+                  <p className="font-light text-[14px]">
+                    {userInfo.email || ""}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </nav>
     </header>
