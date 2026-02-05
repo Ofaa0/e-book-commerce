@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import { bestSeller } from "../../localStore";
 import { url } from "../../store";
 import { IoIosStar } from "react-icons/io";
-import { CiHeart } from "react-icons/ci";
 import { GrCart } from "react-icons/gr";
 import axios from "axios";
 
@@ -29,9 +28,9 @@ const FlashSales = () => {
 
   return (
     <div className="flex justify-center items-center py-30 bg-gray-100">
-      <div className="container">
-        <div className="flex justify-between items-center">
-          <div className="flex flex-col gap-4 w-129">
+      <div className="container px-3">
+        <div className="flex flex-col lg:flex-row gap-5 lg:gap-0 justify-between items-center">
+          <div className="flex flex-col gap-4 lg:w-129">
             <h1 className="text-base-strong-text text-[26px] font-bold">
               Flash Sale
             </h1>
@@ -52,7 +51,7 @@ const FlashSales = () => {
             pagination={{ clickable: true }}
             breakpoints={{
               640: {
-                slidesPerView: 2,
+                slidesPerView: 1,
                 spaceBetween: 20,
               },
               1024: {
@@ -66,7 +65,7 @@ const FlashSales = () => {
                 {/* Your product card component goes here */}
                 <div
                   key={el.bookId}
-                  className="p-4 rounded-lg text-white flex justify-between gap-10 items-center h-[344px] bg-secondery-bg"
+                  className="p-4 rounded-lg text-white flex flex-col lg:flex-row justify-between gap-10 items-center lg:h-[344px] bg-secondery-bg"
                 >
                   <img src={bestSeller[0]} alt="book1" />
                   <div className="flex flex-col justify-between h-full">
@@ -118,9 +117,11 @@ const FlashSales = () => {
                           <div className="col-span-4 bg-[#EAA451] rounded-lg"></div>
                           <div className=" bg-[#FFFFFF1A]"></div>
                         </div>
-                        <p className="text-[#ffffff4d] text-[12px]">{el.stock} books left</p>
+                        <p className="text-[#ffffff4d] text-[12px]">
+                          {el.stock} books left
+                        </p>
                       </div>
-                      <div className="grid grid-cols-5 gap-4"> 
+                      <div className="grid grid-cols-5 gap-4">
                         <div className="col-span-4"></div>
                         <button className="cursor-pointer rounded-lg border bg-purple-them border-purple-them p-3 flex justify-center items-center hover:scale-105 duration-300 self-end">
                           <GrCart className="text-white text-2xl " />

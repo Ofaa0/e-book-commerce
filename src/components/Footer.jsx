@@ -21,9 +21,9 @@ const Footer = () => {
               <h1 className="">Bookshop</h1>
             </div>
             <div className="flex gap-10 items-center">
-              {navLinks.map((link, index) => (
-                <Link key={index + 1} className="font-semibold">
-                  {link}
+              {navLinks.map((el) => (
+                <Link key={el.path} className="font-semibold" to={el.path}>
+                  {el.title}
                 </Link>
               ))}
             </div>

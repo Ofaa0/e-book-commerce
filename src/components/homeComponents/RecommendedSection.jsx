@@ -22,15 +22,15 @@ const RecommendedSection = () => {
   }, []);
   return (
     <div className="py-30 bg-white-bg flex justify-center items-center">
-      <div className="container">
+      <div className="container px-3">
         <h1 className="text-base-strong-text font-bold text-[26px] pb-10">
           Recomended For You
         </h1>
-        <div className="grid grid-cols-2 gap-6 text-base-strong-text">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 text-base-strong-text">
           {homeBooks.map((el) => (
             <div
               key={el.bookId}
-              className="p-10 flex justify-between gap-10 items-center h-[344px]"
+              className="p-10 flex flex-col lg:flex-row justify-between gap-10 items-center lg:h-[344px]"
             >
               <img src={bestSeller[0]} alt="book1" />
               <div className="flex flex-col justify-between h-full">

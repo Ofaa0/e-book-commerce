@@ -13,12 +13,12 @@ import BooksPage from "./pages/BooksPage";
 
 function App() {
   const stored =
-  JSON.parse(localStorage.getItem("auth-store")) ||
-  JSON.parse(sessionStorage.getItem("auth-store"));
+    JSON.parse(localStorage.getItem("auth-store")) ||
+    JSON.parse(sessionStorage.getItem("auth-store"));
 
-if (stored) {
-  useAuthStore.setState(stored);
-}
+  if (stored) {
+    useAuthStore.setState(stored);
+  }
   return (
     <>
       <div className="w-full h-dvh bg-[#F5F5F5] font-open!">
@@ -28,9 +28,9 @@ if (stored) {
               <Route
                 index
                 element={
-                //  <ProtectedHomeRoute>
-                    <HomePage />
-                //  </ProtectedHomeRoute>
+                  //  <ProtectedHomeRoute>
+                  <HomePage />
+                  //  </ProtectedHomeRoute>
                 }
               ></Route>
               <Route path="/login" element={<LoginPage />}></Route>
@@ -40,7 +40,14 @@ if (stored) {
                 element={<ForgetPasswordPage />}
               ></Route>
               <Route path="/about" element={<AboutUsPage />}></Route>
-              <Route path="/books" element={<BooksPage />}></Route>
+              <Route
+                path="/books"
+                element={
+                  <ProtectedHomeRoute>
+                    <BooksPage />
+                  </ProtectedHomeRoute>
+                }
+              ></Route>
               <Route path="*" element={<NotFoundPage />}></Route>
             </Route>
           </Routes>
