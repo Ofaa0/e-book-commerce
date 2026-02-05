@@ -18,6 +18,7 @@ const BooksPage = () => {
       const res = await axios.get(url + "/book", {
         headers: {
           Authorization: `Bearer ${token}`,
+          Accept:"application/json"
         },
       });
       console.log(res.data);
@@ -26,6 +27,7 @@ const BooksPage = () => {
     }
   };
   useEffect(() => {
+    if (!token) return;
     getBooks();
   }, [token]);
   console.log(token);
@@ -146,7 +148,11 @@ const BooksPage = () => {
                         </div>
                       </div>
                       {/* <div id="fourth-line"></div> */}
-                      <div className="inline-flex items-center gap-1 border border-gray-300 rounded-lg bg-white p-1 w-fit">
+                     
+                    </div>
+                  </div>
+                ))}
+                 <div className="inline-flex items-center gap-1 border border-gray-300 rounded-lg bg-white p-1 w-fit">
                         <button className="px-3 py-1.5 text-sm font-medium text-pink-600 hover:bg-gray-50 rounded transition-colors">
                           &lt; Previous
                         </button>
@@ -171,9 +177,6 @@ const BooksPage = () => {
                           Next &gt;
                         </button>
                       </div>
-                    </div>
-                  </div>
-                ))}
               </div>
             </div>
           </div>
