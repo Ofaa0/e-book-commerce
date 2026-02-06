@@ -23,7 +23,7 @@ const Navbar = () => {
     pathname === "/login" ||
     pathname === "/signup" ||
     pathname === "/about" ||
-    pathname === "/books";
+    pathname.includes("/books");
 
   const [userInfo, setUserInfo] = useState({});
   const btnStyle =
@@ -58,7 +58,7 @@ const Navbar = () => {
 
   return (
     <header
-      className={`bg-[url(../../../public/headerBg1.png)] w-full ${isInfoPages ? "h-84.5" : pathname === "/books" ? "h-35" : "h-dvh"} bg-left bg-cover bg-no-repeat relative ${isInfoPages ? "hidden" : "flex"} lg:flex justify-center items-center overflow-x-hidden`}
+      className={`bg-[url(../../../public/headerBg1.png)] w-full ${isInfoPages ? "h-84.5" : pathname.includes("/books") ? "h-35" : "h-dvh"} bg-left bg-cover bg-no-repeat relative ${isInfoPages ? "hidden" : "flex"} lg:flex justify-center items-center overflow-x-hidden`}
     >
       <div className="bg-black/70 w-full h-full absolute left-0 top-0"></div>
       {!isAboutOrInfoPage && (

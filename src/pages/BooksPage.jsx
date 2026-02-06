@@ -10,6 +10,7 @@ import { GrCart, GrMicrophone } from "react-icons/gr";
 import { IoSearchOutline } from "react-icons/io5";
 import TabsTool from "../components/booksComponents/TabsTool";
 import { CiHeart } from "react-icons/ci";
+import { Outlet } from "react-router-dom";
 
 const BooksPage = () => {
   const { token } = useAuthStore();
@@ -18,7 +19,7 @@ const BooksPage = () => {
       const res = await axios.get(url + "/book", {
         headers: {
           Authorization: `Bearer ${token}`,
-          Accept:"application/json"
+          Accept: "application/json",
         },
       });
       console.log(res.data);
@@ -124,18 +125,18 @@ const BooksPage = () => {
                         </div>
                         <div className="flex justify-between items-center">
                           <div className="flex items-center gap-10">
-                            <h1>
+                            <p>
                               Author <br />{" "}
                               <span className="text-base-strong-text font-bold text-[18px]">
                                 {el.author}
                               </span>
-                            </h1>
-                            <h1>
+                            </p>
+                            <p>
                               year <br />{" "}
                               <span className="text-base-strong-text font-bold text-[18px]">
                                 {el.year}
                               </span>
-                            </h1>
+                            </p>
                           </div>
                           <div className="grid grid-cols-5 gap-4">
                             <button className="cursor-pointer col-span-4 bg-purple-them rounded-lg text-white flex items-center justify-center gap-2.5 hover:scale-105 duration-300">
@@ -147,36 +148,36 @@ const BooksPage = () => {
                           </div>
                         </div>
                       </div>
-                      {/* <div id="fourth-line"></div> */}
-                     
                     </div>
                   </div>
                 ))}
-                 <div className="inline-flex items-center gap-1 border border-gray-300 rounded-lg bg-white p-1 w-fit">
-                        <button className="px-3 py-1.5 text-sm font-medium text-pink-600 hover:bg-gray-50 rounded transition-colors">
-                          &lt; Previous
-                        </button>
+                <div className="w-full flex justify-center">
+                  <div className="inline-flex items-center gap-1 border border-gray-300 rounded-lg bg-white p-1 w-fit">
+                    <button className="px-3 py-1.5 text-sm font-medium text-pink-600 hover:bg-gray-50 rounded transition-colors">
+                      &lt; Previous
+                    </button>
 
-                        <button className="min-w-[2rem] px-3 py-1.5 text-sm font-medium text-white bg-pink-600 rounded shadow-sm">
-                          1
-                        </button>
+                    <button className="min-w-[2rem] px-3 py-1.5 text-sm font-medium text-white bg-pink-600 rounded shadow-sm">
+                      1
+                    </button>
 
-                        <button className="min-w-[2rem] px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded transition-colors">
-                          2
-                        </button>
+                    <button className="min-w-[2rem] px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded transition-colors">
+                      2
+                    </button>
 
-                        <button className="min-w-[2rem] px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded transition-colors">
-                          3
-                        </button>
+                    <button className="min-w-[2rem] px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded transition-colors">
+                      3
+                    </button>
 
-                        <span className="px-2 py-1.5 text-sm text-gray-500">
-                          ...
-                        </span>
+                    <span className="px-2 py-1.5 text-sm text-gray-500">
+                      ...
+                    </span>
 
-                        <button className="px-3 py-1.5 text-sm font-medium text-pink-600 hover:bg-gray-50 rounded transition-colors">
-                          Next &gt;
-                        </button>
-                      </div>
+                    <button className="px-3 py-1.5 text-sm font-medium text-pink-600 hover:bg-gray-50 rounded transition-colors">
+                      Next &gt;
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

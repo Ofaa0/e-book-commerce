@@ -10,6 +10,7 @@ import ProtectedHomeRoute from "./routes/ProtectedHomeRoute";
 import AboutUsPage from "./pages/AboutUsPage";
 import { useAuthStore } from "./store";
 import BooksPage from "./pages/BooksPage";
+import SingleBookPage from "./pages/SingleBookPage";
 
 function App() {
   const stored =
@@ -48,6 +49,7 @@ function App() {
                   </ProtectedHomeRoute>
                 }
               ></Route>
+              <Route path="/books/:id" element={<SingleBookPage />}></Route>
               <Route path="*" element={<NotFoundPage />}></Route>
             </Route>
           </Routes>

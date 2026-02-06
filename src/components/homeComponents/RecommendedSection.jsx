@@ -6,7 +6,7 @@ import { IoIosStar } from "react-icons/io";
 import { CiHeart } from "react-icons/ci";
 import { GrCart } from "react-icons/gr";
 
-const RecommendedSection = () => {
+const RecommendedSection = ({extraStyle}) => {
   const [homeBooks, setHomeBooks] = useState([]);
   const getRecommendedBooks = async () => {
     try {
@@ -21,7 +21,7 @@ const RecommendedSection = () => {
     getRecommendedBooks();
   }, []);
   return (
-    <div className="py-30 bg-white-bg flex justify-center items-center">
+    <div className={`py-30 bg-white-bg flex justify-center items-center ${extraStyle}`}>
       <div className="container px-3">
         <h1 className="text-base-strong-text font-bold text-[26px] pb-10">
           Recomended For You

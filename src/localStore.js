@@ -82,3 +82,30 @@ export const navLinks = [
   },
   ,
 ];
+export const singleBookImages = [
+  {
+    id: 1,
+    src: "../../public/1.png",
+  },
+
+  {
+    id: 2,
+    src: "../../public/bookback.png",
+  },
+];
+export const BottomSectionSingleBookTabs = [
+  {
+    id: 1,
+    tabName: "Product Details",
+  },
+
+  {
+    id: 2,
+    tabName: "Customer Reviews",
+  },
+
+  {
+    id: 3,
+    tabName: "Recomended For You",
+  },
+];
