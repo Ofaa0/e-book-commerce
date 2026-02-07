@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { navLinks } from "../../localStore";
 import { useMediaQuery } from "react-responsive";
+import DropdownList from "./DropdownList";
 
 const Navbar = () => {
   const isMobile = useMediaQuery({
@@ -18,12 +19,14 @@ const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const { pathname } = useLocation();
   const { token } = useAuthStore();
-  const isInfoPages = pathname === "/login" || pathname === "/signup";
+  const isInfoPages =
+    pathname === "/login" || pathname === "/signup" || pathname === "/profile";
   const isAboutOrInfoPage =
     pathname === "/login" ||
     pathname === "/signup" ||
     pathname === "/about" ||
-    pathname.includes("/books");
+    pathname.includes("/books") ||
+    pathname === "/profile";
 
   const [userInfo, setUserInfo] = useState({});
   const btnStyle =
@@ -58,7 +61,7 @@ const Navbar = () => {
 
   return (
     <header
-      className={`bg-[url(../../../public/headerBg1.png)] w-full ${isInfoPages ? "h-84.5" : pathname.includes("/books") ? "h-35" : "h-dvh"} bg-left bg-cover bg-no-repeat relative ${isInfoPages ? "hidden" : "flex"} lg:flex justify-center items-center overflow-x-hidden`}
+      className={`bg-[url(../../../public/headerBg1.png)] w-full ${isInfoPages ? "h-84.5" : pathname.includes("/books") ? "h-35" : "h-dvh"} bg-left bg-cover bg-no-repeat relative ${isInfoPages ? "hidden" : "flex"} lg:flex justify-center items-center `}
     >
       <div className="bg-black/70 w-full h-full absolute left-0 top-0"></div>
       {!isAboutOrInfoPage && (
@@ -142,8 +145,18 @@ const Navbar = () => {
                 </div>
               ) : (
                 <div className="flex gap-6 lg:items-center items-start flex-col lg:flex-row w-full lg:w-fit">
-                  <FaRegHeart className="text-2xl cursor-pointer hover:text-purple-them transition-colors" />
-                  <GrCart className="text-2xl cursor-pointer hover:text-purple-them transition-colors" />
+                  <div className="relative">
+                    <span className="bg-purple-them text-white w-5 h-5 rounded-full flex justify-center items-center absolute -top-2 -right-3">
+                      0
+                    </span>
+                    <FaRegHeart className="text-2xl cursor-pointer" />
+                  </div>
+                  <div className="relative">
+                    <span className="bg-purple-them text-white w-5 h-5 rounded-full flex justify-center items-center absolute -top-2 -right-3">
+                      0
+                    </span>
+                    <GrCart className="text-2xl cursor-pointer" />
+                  </div>
                   <div className="flex items-center gap-3">
                     <FaCircleUser className="text-4xl" />
                     <div className="flex flex-col">
@@ -155,6 +168,7 @@ const Navbar = () => {
                       </p>
                     </div>
                   </div>
+                  <DropdownList />
                 </div>
               )}
             </div>

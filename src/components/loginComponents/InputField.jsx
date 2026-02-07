@@ -1,13 +1,14 @@
 import { Field } from "formik";
 
-const InputField = ({ name, label , type, placeHolder}) => {
+const InputField = ({ name, label, type, placeHolder, isDisabled , labelStyle }) => {
   return (
     <label
-      className="text-black pb-2 text-[16px] lg:text-[18px] font-semibold leading-[21.75px] w-full"
+      className={`text-black pb-2 text-[16px] lg:text-[18px] font-semibold leading-[21.75px] w-full ${labelStyle}`}
       htmlFor=""
     >
       {label} <br />
       <Field
+        disabled={isDisabled}
         type={type}
         name={name}
         placeholder={placeHolder}

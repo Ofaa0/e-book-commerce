@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BottomSectionSingleBookTabs } from "../../localStore";
+import { bottomSectionSingleBookTabs } from "../../localStore";
 import ReviewCard from "./ReviewCard";
 import RecommendedSection from "../homeComponents/RecommendedSection";
 
@@ -11,7 +11,7 @@ const BottomSectionSingleBook = () => {
     <div className="w-full flex  justify-center items-center">
       <div className="container">
         <div className="text-[26px] h-15 text-base-text flex items-start gap-20 border-b-2 border-base-text/40">
-          {BottomSectionSingleBookTabs.map((el) => (
+          {bottomSectionSingleBookTabs.map((el) => (
             <h2
               onClick={() => {
                 setTab(el.tabName);

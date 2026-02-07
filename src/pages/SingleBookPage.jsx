@@ -42,7 +42,7 @@ const SingleBookPage = () => {
             />
             <div className="flex flex-col gap-10">
               <div className="w-full flex justify-between items-start gap-9.5">
-                <div className="flex w-[758px] flex-col gap-6">
+                <div className="flex w-189.5 flex-col gap-6">
                   <div>
                     <h1 className="text-base-strong-text font-bold text-[28px]">
                       Rich Dad And Poor Dad

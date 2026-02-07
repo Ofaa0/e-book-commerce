@@ -30,7 +30,7 @@ const RecommendedSection = ({extraStyle}) => {
           {homeBooks.map((el) => (
             <div
               key={el.bookId}
-              className="p-10 flex flex-col lg:flex-row justify-between gap-10 items-center lg:h-[344px]"
+              className="p-10 flex flex-col lg:flex-row justify-between gap-10 items-center lg:h-86"
             >
               <img src={bestSeller[0]} alt="book1" />
               <div className="flex flex-col justify-between h-full">

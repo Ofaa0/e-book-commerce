@@ -12,7 +12,7 @@ const ReviewCard = ({
   return (
     <div className="flex gap-4 p-4 bg-white rounded-lg">
       {/* User Avatar */}
-      <div className="flex-shrink-0">
+      <div className="shrink-0">
         {userImage ? (
           <img
             src={userImage}

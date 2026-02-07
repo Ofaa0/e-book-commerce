@@ -11,6 +11,7 @@ import AboutUsPage from "./pages/AboutUsPage";
 import { useAuthStore } from "./store";
 import BooksPage from "./pages/BooksPage";
 import SingleBookPage from "./pages/SingleBookPage";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
   const stored =
@@ -50,6 +51,7 @@ function App() {
                 }
               ></Route>
               <Route path="/books/:id" element={<SingleBookPage />}></Route>
+              <Route path="/profile" element={<ProfilePage />}></Route>
               <Route path="*" element={<NotFoundPage />}></Route>
             </Route>
           </Routes>

@@ -199,7 +199,7 @@ const SignupPage = () => {
           </div>
           <div className="self-start w-full flex justify-between mb-10">
             <label
-              className="flex items-center gap-1 text-[#222222] cursor-pointer mt-4 text-[14px] lg:text-[16px]"
+              className="flex items-center gap-1 text-base-strong-text cursor-pointer mt-4 text-[14px] lg:text-[16px]"
               htmlFor="agree"
             >
               <Field
@@ -222,7 +222,7 @@ const SignupPage = () => {
           </button>
           {isMobile ? (
             <>
-              <p className="text-[16px] text-[#222222] leading-[21.75px] mb-10">
+              <p className="text-[16px] text-base-strong-text leading-[21.75px] mb-10">
                 Already have an account?
                 <Link to="/login" className="text-purple-them font-semibold">
                   Login{" "}
@@ -255,7 +255,7 @@ const SignupPage = () => {
                   Google
                 </button>
               </div>
-              <p className="text-[14px] text-[#222222] leading-[21.75px] mb-10">
+              <p className="text-[14px] text-base-strong-text leading-[21.75px] mb-10">
                 Don’t have an account?
                 <Link to="/login" className="text-purple-them font-semibold">
                   Login
