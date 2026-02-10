@@ -12,6 +12,7 @@ import { useAuthStore } from "./store";
 import BooksPage from "./pages/BooksPage";
 import SingleBookPage from "./pages/SingleBookPage";
 import ProfilePage from "./pages/ProfilePage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 function App() {
   const stored =
@@ -51,7 +52,22 @@ function App() {
                 }
               ></Route>
               <Route path="/books/:id" element={<SingleBookPage />}></Route>
-              <Route path="/profile" element={<ProfilePage />}></Route>
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedHomeRoute>
+                    <ProfilePage />
+                  </ProtectedHomeRoute>
+                }
+              ></Route>
+              <Route
+                path="/reset-password"
+                element={
+                  <ProtectedHomeRoute>
+                    <ResetPasswordPage />
+                  </ProtectedHomeRoute>
+                }
+              ></Route>
               <Route path="*" element={<NotFoundPage />}></Route>
             </Route>
           </Routes>

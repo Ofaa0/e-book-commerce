@@ -1,9 +1,11 @@
 export const url = "https://bookstore.eraasoft.pro/api";
+export const adminToken = "1444|eB38Kn5aodV5ViTU5EaItCDNn0pZuNGVxJUQCrFS1cd5ce92";
 
 
 import { create } from "zustand";
 
 export const useAuthStore = create((set) => ({
+  user: {},
   token: null,
   rememberMe: false,
   isAuthenticated: false,
@@ -32,6 +34,11 @@ export const useAuthStore = create((set) => ({
       rememberMe: false,
     });
   },
+  getUserInfo: (userInfo) => {
+    set({
+      user: userInfo
+    })
+  }
 }));
 export const useUserInfoStore = create((set) => ({
   name: "",

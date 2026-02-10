@@ -6,14 +6,15 @@ import { url, useAuthStore } from "../store";
 import { useEffect, useState } from "react";
 import InputField from "../components/loginComponents/InputField";
 import toast from "react-hot-toast";
-import { BsPen } from "react-icons/bs";
+import { useLocation } from "react-router-dom";
 
 const ProfilePage = () => {
+  //const {pathname} = useLocation()
   const isMobile = useMediaQuery({
     query: "(min-width: 443px)",
   });
   const [userInfo, setUserInfo] = useState({});
-  const { token } = useAuthStore();
+  const { token, getUserInfo } = useAuthStore();
   const updateProfileVaildationSchema = Yup.object({
     phoneNumber: Yup.string()
       .matches(/^\d+$/, "Phone must be digits only")
@@ -59,8 +60,16 @@ const ProfilePage = () => {
     }
   };
   useEffect(() => {
-    if (token) getUserProfileInfo();
+    if (token) {
+      getUserProfileInfo();
+      getUserInfo(userInfo);
+    }
   }, [token]);
+  useEffect(() => {
+    
+      getUserInfo(userInfo);
+    
+  }, []);
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
 

@@ -164,3 +164,17 @@ export const dropdownList = [
     label: "Logout",
   },
 ];
+export const paginationBtns = [
+  {
+    id: 1,
+    pageNumber: 1,
+  }, {
+    id: 2,
+    pageNumber: 2,
+  },
+  {
+    id: 3,
+    pageNumber: 3,
+  },
+ 
+]

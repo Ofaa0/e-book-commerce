@@ -1,6 +1,6 @@
 import axios from "axios";
 import settingsImg from "../../public/settings.png";
-import { url, useAuthStore } from "../store";
+import { adminToken, url, useAuthStore } from "../store";
 import { useEffect, useState } from "react";
 import { IoIosArrowDown, IoIosStar } from "react-icons/io";
 import cats from "../cats.json";
@@ -11,27 +11,82 @@ import { IoSearchOutline } from "react-icons/io5";
 import TabsTool from "../components/booksComponents/TabsTool";
 import { CiHeart } from "react-icons/ci";
 import { Outlet } from "react-router-dom";
+import { paginationBtns } from "../localStore";
+import Loading from "../components/Loading";
 
 const BooksPage = () => {
+  const [loading, setLoading] = useState(true);
+  const [targetCats, setTargetCats] = useState([]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(17);
+  const booksPerPage = 3;
+
+  // ===========================
+  const [shopBooks, setShopBooks] = useState([]);
+  const [catsCol, setCatsCol] = useState([]);
+  const [btn1, setBtn1] = useState(0);
+  const [selectedBtn, setSelectedBtn] = useState(null);
   const { token } = useAuthStore();
+
+  const getPaginationButtons = () => {
+    let start = Math.max(currentPage - 1, 1);
+    let end = Math.min(start + booksPerPage - 1, totalPages);
+
+    if (end - start + 1 < booksPerPage) {
+      start = Math.max(end - booksPerPage + 1, 1);
+    }
+
+    const buttons = [];
+    for (let i = start; i <= end; i++) {
+      buttons.push(i);
+    }
+    return buttons;
+  };
+
   const getBooks = async () => {
     try {
       const res = await axios.get(url + "/book", {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${adminToken}`,
           Accept: "application/json",
         },
+        params: {
+          page: currentPage,
+          booksPerPage,
+          category: targetCats,
+          // filters:
+          //   targetCats.length > 0
+          //     ? {
+          //         category: {
+          //           categoryName: {
+          //             $in: targetCats,
+          //           },
+          //         },
+          //       }
+          //     : {},
+        },
       });
-      console.log(res.data);
+      setShopBooks(res.data?.data?.books);
+      setCatsCol(res.data?.data?.categories);
+
+      console.log(res.data?.data?.categories);
+      setLoading(false);
+
+      console.log(shopBooks);
     } catch (err) {
       console.log(err);
+      setLoading(false);
     }
   };
   useEffect(() => {
     if (!token) return;
     getBooks();
-  }, [token]);
+  }, [token, currentPage, targetCats]);
   console.log(token);
+  useEffect(() => {
+    setSelectedBtn(paginationBtns[0]);
+  }, []);
 
   return (
     <div className="w-full  bg-white-bg flex justify-center items-start">
@@ -44,9 +99,24 @@ const BooksPage = () => {
                 Filter
               </h1>
             </div>
-            <CollapseTool data={cats} titleHeading={"Categories"} />
-            <CollapseTool data={cats} titleHeading={"Publisher"} />
-            <CollapseTool data={cats} titleHeading={"Year"} />
+            <CollapseTool
+              targetCats={targetCats}
+              setTargetCats={setTargetCats}
+              data={catsCol}
+              titleHeading={"Categories"}
+            />
+            <CollapseTool
+              targetCats={targetCats}
+              setTargetCats={setTargetCats}
+              data={catsCol}
+              titleHeading={"Publisher"}
+            />
+            <CollapseTool
+              targetCats={targetCats}
+              setTargetCats={setTargetCats}
+              data={catsCol}
+              titleHeading={"Year"}
+            />
           </div>
           <div className="col-span-9 pt-15 border-l border-base-text pl-6">
             <div className="flex justify-center items-center gap-6.5  mb-6">
@@ -71,7 +141,8 @@ const BooksPage = () => {
             <TabsTool data={cats} />
             <div className="pt-10 py-32.25 w-full">
               <div className="w-full grid grid-cols-1 gap-15">
-                {books.map((el) => (
+                {loading && <Loading />}
+                {shopBooks.map((el) => (
                   <div
                     key={el.id}
                     className="w-full flex items-start gap-10 text-base-strong-text"
@@ -84,17 +155,14 @@ const BooksPage = () => {
                       >
                         <div>
                           <h1 className="text-base-strong-text font-bold text-[18px]">
-                            {el.title}
+                            {el.bookName}
                           </h1>
                           <p className="w-[424px] text-base-text text-[16px]">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit. Mauris et ultricies est. Aliquam in justo
-                            varius, sagittis neque ut, malesuada leo. Aliquam in
-                            justo varius, sagittis neque ut, malesuada leo.
+                            {el.description}
                           </p>
                         </div>
                         <p className="text-[#EBC305] border border-[#EBC305] rounded-lg py-2 px-3 bg-white">
-                          25% Discount code: Ne212
+                          {el.discount}% Discount code: Ne212
                         </p>
                       </div>
                       <div className="flex flex-col gap-4">
@@ -134,7 +202,7 @@ const BooksPage = () => {
                             <p>
                               year <br />{" "}
                               <span className="text-base-strong-text font-bold text-[18px]">
-                                {el.year}
+                                {el.publicationYear}
                               </span>
                             </p>
                           </div>
@@ -151,32 +219,40 @@ const BooksPage = () => {
                     </div>
                   </div>
                 ))}
-                <div className="w-full flex justify-center">
-                  <div className="inline-flex items-center gap-1 border border-gray-300 rounded-lg bg-white p-1 w-fit">
-                    <button className="px-3 py-1.5 text-sm font-medium text-pink-600 hover:bg-gray-50 rounded transition-colors">
-                      &lt; Previous
+                <div className="join flex justify-center gap-3">
+                  <button
+                    onClick={() => {
+                      if (currentPage > 1) {
+                        setCurrentPage(currentPage - 1);
+                      }
+                    }}
+                    disabled={!(currentPage > 0)}
+                    className="join-item btn bg-white text-purple-them rounded-lg font-bold border-none"
+                  >
+                    « Previous
+                  </button>
+                  {getPaginationButtons().map((page) => (
+                    <button
+                      key={page}
+                      onClick={() => setCurrentPage(page)}
+                      className={`join-item btn rounded-lg font-bold border-none ${
+                        currentPage === page
+                          ? "bg-purple-them text-white"
+                          : "bg-white text-purple-them"
+                      }`}
+                    >
+                      {page}
                     </button>
-
-                    <button className="min-w-[2rem] px-3 py-1.5 text-sm font-medium text-white bg-pink-600 rounded shadow-sm">
-                      1
-                    </button>
-
-                    <button className="min-w-[2rem] px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded transition-colors">
-                      2
-                    </button>
-
-                    <button className="min-w-[2rem] px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded transition-colors">
-                      3
-                    </button>
-
-                    <span className="px-2 py-1.5 text-sm text-gray-500">
-                      ...
-                    </span>
-
-                    <button className="px-3 py-1.5 text-sm font-medium text-pink-600 hover:bg-gray-50 rounded transition-colors">
-                      Next &gt;
-                    </button>
-                  </div>
+                  ))}
+                  <button
+                    onClick={() => {
+                      setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+                    }}
+                    disabled={currentPage === totalPages}
+                    className="join-item btn bg-white text-purple-them rounded-lg font-bold border-none"
+                  >
+                    Next »
+                  </button>
                 </div>
               </div>
             </div>

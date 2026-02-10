@@ -20,13 +20,17 @@ const Navbar = () => {
   const { pathname } = useLocation();
   const { token } = useAuthStore();
   const isInfoPages =
-    pathname === "/login" || pathname === "/signup" || pathname === "/profile";
+    pathname === "/login" ||
+    pathname === "/signup" ||
+    pathname === "/profile" ||
+    pathname === "/reset-password";
   const isAboutOrInfoPage =
     pathname === "/login" ||
     pathname === "/signup" ||
     pathname === "/about" ||
     pathname.includes("/books") ||
-    pathname === "/profile";
+    pathname === "/profile" ||
+    pathname === "/reset-password";
 
   const [userInfo, setUserInfo] = useState({});
   const btnStyle =
