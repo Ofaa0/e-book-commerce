@@ -4,15 +4,15 @@ import { adminToken, url, useAuthStore } from "../store";
 import { useEffect, useState } from "react";
 import { IoIosArrowDown, IoIosStar } from "react-icons/io";
 import cats from "../cats.json";
-import books from "../books.json";
 import CollapseTool from "../components/booksComponents/CollapseTool";
 import { GrCart, GrMicrophone } from "react-icons/gr";
 import { IoSearchOutline } from "react-icons/io5";
 import TabsTool from "../components/booksComponents/TabsTool";
 import { CiHeart } from "react-icons/ci";
-import { Outlet } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { paginationBtns } from "../localStore";
 import Loading from "../components/Loading";
+import AddToWishListBtn from "../components/wishListComponents/AddToWishListBtn";
 
 const BooksPage = () => {
   const [loading, setLoading] = useState(true);
@@ -25,9 +25,10 @@ const BooksPage = () => {
   // ===========================
   const [shopBooks, setShopBooks] = useState([]);
   const [catsCol, setCatsCol] = useState([]);
-  const [btn1, setBtn1] = useState(0);
+
   const [selectedBtn, setSelectedBtn] = useState(null);
   const { token } = useAuthStore();
+  const navigate = useNavigate();
 
   const getPaginationButtons = () => {
     let start = Math.max(currentPage - 1, 1);
@@ -54,7 +55,7 @@ const BooksPage = () => {
         params: {
           page: currentPage,
           booksPerPage,
-          category: targetCats,
+          // category: targetCats,
           // filters:
           //   targetCats.length > 0
           //     ? {
@@ -67,23 +68,27 @@ const BooksPage = () => {
           //     : {},
         },
       });
-      setShopBooks(res.data?.data?.books);
-      setCatsCol(res.data?.data?.categories);
+      setShopBooks(res?.data?.data?.books);
+      setCatsCol(res?.data?.data?.categories);
 
-      console.log(res.data?.data?.categories);
+      // console.log(res.data?.data?.categories);
       setLoading(false);
 
-      console.log(shopBooks);
+      console.log("=====>",res.data.data.books);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       setLoading(false);
     }
   };
   useEffect(() => {
     if (!token) return;
     getBooks();
-  }, [token, currentPage, targetCats]);
-  console.log(token);
+  }, [token, currentPage]);
+  useEffect(() => {
+    if (!token) return;
+    getBooks();
+  }, []);
+  // console.log(token);
   useEffect(() => {
     setSelectedBtn(paginationBtns[0]);
   }, []);
@@ -127,7 +132,7 @@ const BooksPage = () => {
                   className="pl-6 bg-white w-full py-3 text-black "
                 />
 
-                <div className="absolute cursor-pointer top-1/2 -translate-y-1/2 right-0 text-[18px] text-purple-them bg-white w-[70px] h-full flex justify-center items-center border-l border-base-text">
+                <div className="absolute cursor-pointer top-1/2 -translate-y-1/2 right-0 text-[18px] text-purple-them bg-white w-17.5 h-full flex justify-center items-center border-l border-base-text">
                   <IoSearchOutline className="text-[30px]" />
                 </div>
                 <GrMicrophone className="cursor-pointer text-base-text absolute text-[26px] top-1/2 -translate-y-1/2 right-21" />
@@ -144,8 +149,11 @@ const BooksPage = () => {
                 {loading && <Loading />}
                 {shopBooks.map((el) => (
                   <div
-                    key={el.id}
-                    className="w-full flex items-start gap-10 text-base-strong-text"
+                    key={el?.bookId}
+                    className="w-full flex items-start gap-10 text-base-strong-text cursor-pointer hover:bg-gray-200 duration-300"
+                    onClick={() => {
+                      navigate(`/books/${el.bookId}`);
+                    }}
                   >
                     <img src="../../public/1.png" alt="book image" />
                     <div className="w-full flex flex-col gap-6">
@@ -157,7 +165,7 @@ const BooksPage = () => {
                           <h1 className="text-base-strong-text font-bold text-[18px]">
                             {el.bookName}
                           </h1>
-                          <p className="w-[424px] text-base-text text-[16px]">
+                          <p className="w-106 text-base-text text-[16px]">
                             {el.description}
                           </p>
                         </div>
@@ -187,7 +195,7 @@ const BooksPage = () => {
                               </p>
                             </div>
                             <div className="font-bold text-base-strong-text text-2xl">
-                              ${"52.3"}
+                              ${el.final_price}
                             </div>
                           </div>
                         </div>
@@ -210,9 +218,7 @@ const BooksPage = () => {
                             <button className="cursor-pointer col-span-4 bg-purple-them rounded-lg text-white flex items-center justify-center gap-2.5 hover:scale-105 duration-300">
                               Add To Cart <GrCart className="text-xl" />
                             </button>
-                            <button className="cursor-pointer rounded-lg border border-purple-them p-3 flex justify-center items-center hover:scale-105 duration-300">
-                              <CiHeart className="text-purple-them text-2xl " />
-                            </button>
+                            <AddToWishListBtn bookId={el?.bookId} />
                           </div>
                         </div>
                       </div>

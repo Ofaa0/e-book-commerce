@@ -11,7 +11,7 @@ const CollapseTool = ({ data, titleHeading, targetCats, setTargetCats }) => {
     );
   };
   useEffect(() => {
-    console.log("Updated targetCats:", targetCats);
+    // console.log("Updated targetCats:", targetCats);
   }, [targetCats]);
 
   return (

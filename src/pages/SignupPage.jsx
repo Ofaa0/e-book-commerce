@@ -43,7 +43,7 @@ const SignupPage = () => {
     if (vals.agree) {
       try {
         const res = await axios.post(url + "/register", valsInfo);
-        console.log("registration success:", res.data);
+        // console.log("registration success:", res.data);
         toast.success("account is created");
         navigate("/login");
       } catch (err) {

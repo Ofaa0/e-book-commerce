@@ -5,29 +5,35 @@ import { url } from "../../store";
 import { IoIosStar } from "react-icons/io";
 import { CiHeart } from "react-icons/ci";
 import { GrCart } from "react-icons/gr";
+import { useLocation } from "react-router-dom";
+import AddToWishListBtn from "../wishListComponents/AddToWishListBtn";
 
-const RecommendedSection = ({extraStyle}) => {
+const RecommendedSection = ({ extraStyle, recomBooks }) => {
+  const { pathname } = useLocation();
   const [homeBooks, setHomeBooks] = useState([]);
   const getRecommendedBooks = async () => {
     try {
       const res = await axios.get(url + "/home");
-      console.log(res.data.data.recommended);
+      // console.log(res.data.data.recommended);
       setHomeBooks(res.data?.data?.recommended);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   };
   useEffect(() => {
     getRecommendedBooks();
   }, []);
+  const currentRecom = pathname == "/" ? homeBooks : recomBooks;
   return (
-    <div className={`py-30 bg-white-bg flex justify-center items-center ${extraStyle}`}>
+    <div
+      className={`py-30 bg-white-bg flex justify-center items-center ${extraStyle}`}
+    >
       <div className="container px-3">
         <h1 className="text-base-strong-text font-bold text-[26px] pb-10">
           Recomended For You
         </h1>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 text-base-strong-text">
-          {homeBooks.map((el) => (
+          {currentRecom.map((el) => (
             <div
               key={el.bookId}
               className="p-10 flex flex-col lg:flex-row justify-between gap-10 items-center lg:h-86"
@@ -73,14 +79,12 @@ const RecommendedSection = ({extraStyle}) => {
                       ${el.final_price}
                     </div>
                   </div>
-                <div className="grid grid-cols-5 gap-4">
-                  <button className="cursor-pointer col-span-4 bg-purple-them rounded-lg text-white flex items-center justify-center gap-2.5 hover:scale-105 duration-300">
-                    Add To Cart <GrCart className="text-xl" />
-                  </button>
-                  <button className="cursor-pointer rounded-lg border border-purple-them p-3 flex justify-center items-center hover:scale-105 duration-300">
-                    <CiHeart className="text-purple-them text-2xl " />
-                  </button>
-                </div>
+                  <div className="grid grid-cols-5 gap-4">
+                    <button className="cursor-pointer col-span-4 bg-purple-them rounded-lg text-white flex items-center justify-center gap-2.5 hover:scale-105 duration-300">
+                      Add To Cart <GrCart className="text-xl" />
+                    </button>
+                    <AddToWishListBtn bookId={el.bookId} />
+                  </div>
                 </div>
               </div>
             </div>

@@ -5,8 +5,8 @@ const TabsTool = ({ data }) => {
 
   return (
     <div className="tabs tabs-box bg-transparent flex gap-3">
-      {data.slice(1).map((el) => (
-        <input
+      {data.slice(1).map((el,i) => (
+        <input key={i+1}
           onClick={() => {
             setTab(el);
           }}

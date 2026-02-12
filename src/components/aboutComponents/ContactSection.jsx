@@ -17,9 +17,7 @@ const ContactSection = () => {
     fd.append("message", message);
     try {
       const res = await axios.post(url + "/contacts/store", fd);
-      console.log(res.data);
     } catch (err) {
-      console.log(err);
     }
   };
   const messageValidation = Yup.object({

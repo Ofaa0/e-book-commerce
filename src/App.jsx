@@ -13,6 +13,8 @@ import BooksPage from "./pages/BooksPage";
 import SingleBookPage from "./pages/SingleBookPage";
 import ProfilePage from "./pages/ProfilePage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import NewPasswordPage from "./pages/NewPasswordPage";
+import WishListPage from "./pages/WishListPage";
 
 function App() {
   const stored =
@@ -51,7 +53,22 @@ function App() {
                   </ProtectedHomeRoute>
                 }
               ></Route>
-              <Route path="/books/:id" element={<SingleBookPage />}></Route>
+              <Route
+                path="/books/:id"
+                element={
+                  <ProtectedHomeRoute>
+                    <SingleBookPage />
+                  </ProtectedHomeRoute>
+                }
+              ></Route>
+              <Route
+                path="/wishlist"
+                element={
+                  <ProtectedHomeRoute>
+                    <WishListPage />
+                  </ProtectedHomeRoute>
+                }
+              ></Route>
               <Route
                 path="/profile"
                 element={
@@ -62,12 +79,9 @@ function App() {
               ></Route>
               <Route
                 path="/reset-password"
-                element={
-                  <ProtectedHomeRoute>
-                    <ResetPasswordPage />
-                  </ProtectedHomeRoute>
-                }
+                element={<ResetPasswordPage />}
               ></Route>
+              <Route path="/new-password" element={<NewPasswordPage />}></Route>
               <Route path="*" element={<NotFoundPage />}></Route>
             </Route>
           </Routes>

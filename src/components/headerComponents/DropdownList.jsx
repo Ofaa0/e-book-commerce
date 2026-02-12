@@ -2,12 +2,13 @@ import { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 
 import { dropdownList } from "../../localStore";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store";
 
 const DropdownList = () => {
   const [catIsOpen, setCatIsOpen] = useState(false);
   const { authLogout } = useAuthStore();
+  const navigate = useNavigate();
 
   return (
     <div className="relative z-50">
@@ -23,21 +24,23 @@ const DropdownList = () => {
         {dropdownList.map((el, index) => {
           const Icon = el.icon;
           return (
-            <Link
+            <div
               onClick={() => {
-                setCatIsOpen(!catIsOpen)
+                setCatIsOpen(!catIsOpen);
                 if (index == dropdownList.length - 1) {
                   authLogout();
+                } else {
+                  navigate("/" + el.path);
                 }
               }}
               key={el.id}
-              className="flex items-center gap-2.5 whitespace-nowrap"
+              className="flex items-center gap-2.5 whitespace-nowrap cursor-pointer"
             >
               <span>
                 <Icon />
               </span>
               <span>{el.label}</span>
-            </Link>
+            </div>
           );
         })}
       </div>

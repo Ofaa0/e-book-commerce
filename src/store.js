@@ -50,3 +50,21 @@ export const useUserInfoStore = create((set) => ({
     });
   },
 }));
+export const useHandlePassword = create((set) => ({
+  email: "",
+  setEmail: (email) => {
+    set({ email: email });
+  },
+  OTP: "",
+  setOTP: (OTP) => {
+    set({ OTP: OTP });
+  },
+  
+}));
+export const useWishList = create((set) => ({
+  wishlistLength: 0,
+  setWishlistLength: (length) => {
+    set({ wishlistLength: length });
+  },
+  
+}));

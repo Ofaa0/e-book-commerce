@@ -39,24 +39,24 @@ const ProfilePage = () => {
           },
         },
       );
-      console.log(res.data);
+      // console.log(res.data);
       toast.success(res.data?.message);
     } catch (err) {
-      console.log(err.data);
+      // console.log(err.data);
     }
   };
   const getUserProfileInfo = async () => {
-    console.log(token);
+    // console.log(token);
     try {
       const res = await axios.get(url + "/profile", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(res.data.data);
+      // console.log(res.data.data);
       setUserInfo(res.data?.data);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   };
   useEffect(() => {

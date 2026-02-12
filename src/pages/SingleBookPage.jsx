@@ -8,23 +8,30 @@ import { CiHeart } from "react-icons/ci";
 import { GrCart } from "react-icons/gr";
 import { singleBookImages } from "../localStore";
 import BottomSectionSingleBook from "../components/singleBookComponents/BottomSectionSingleBook";
+import AddToWishListBtn from "../components/wishListComponents/AddToWishListBtn";
 
 const SingleBookPage = () => {
   const [img, setImg] = useState(null);
+  const [currentBook, setCurrentBook] = useState();
+  const [recomBooks, setRecomBooks] = useState();
   const { id } = useParams();
   const { token } = useAuthStore();
   const getSingleBook = async () => {
     try {
-      if (!token) return;
+      if (!token || !id) return;
       const res = await axios.get(url + `/book/show/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
         },
       });
-      console.log(res.data);
+      // console.log(res.data.data);
+      // console.log(id);
+      setCurrentBook(res.data?.data?.book);
+      setRecomBooks(res.data?.data?.recommendedBooks);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
+      // console.log(id);
     }
   };
   useEffect(() => {
@@ -45,30 +52,23 @@ const SingleBookPage = () => {
                 <div className="flex w-189.5 flex-col gap-6">
                   <div>
                     <h1 className="text-base-strong-text font-bold text-[28px]">
-                      Rich Dad And Poor Dad
+                      {currentBook?.bookName}
                     </h1>
                     <p className=" text-base-text text-[16px]">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Mauris et ultricies est. Aliquam in br justo varius,
-                      sagittis neque ut, malesuada leo. Aliquam in justo varius,
-                      sagittis neque ut, malesuada leo.Lorem ipsum dolor sit
-                      amet, consectetur adipiscing elit. Mauris et ultricies
-                      est. Aliquam in justo varius, sagittis neque ut, malesuada
-                      leo. Aliquam in justo varius, sagittis neque ut, malesuada
-                      leo.
+                      {currentBook?.description}
                     </p>
                   </div>
                   <div className="flex items-center gap-10">
                     <p>
                       Author <br />{" "}
                       <span className="text-base-strong-text font-bold text-[18px]">
-                        {"Robert T. Kiyosaki"}
+                        {currentBook?.author}
                       </span>
                     </p>
                     <p>
                       Publication Year <br />{" "}
                       <span className="text-base-strong-text font-bold text-[18px]">
-                        {"1997"}
+                        {currentBook?.publicationYear}
                       </span>
                     </p>
                     <p>
@@ -80,13 +80,13 @@ const SingleBookPage = () => {
                     <p>
                       Pages <br />{" "}
                       <span className="text-base-strong-text font-bold text-[18px]">
-                        {"336"}
+                        {currentBook?.numberOfPages}
                       </span>
                     </p>
                     <p>
                       Language <br />{" "}
                       <span className="text-base-strong-text font-bold text-[18px]">
-                        {"English"}
+                        {currentBook?.lang}
                       </span>
                     </p>
                   </div>
@@ -102,9 +102,11 @@ const SingleBookPage = () => {
               <StarsRate />
               <div className=" flex justify-between">
                 <div className="flex items-center gap-4">
-                  <h3 className="font-semibold text-[36px] ">$40.00</h3>
+                  <h3 className="font-semibold text-[36px] ">
+                    ${currentBook?.final_price}
+                  </h3>
                   <h4 className="font-semibold text-[24px] text-base-text">
-                    $50.00
+                    ${currentBook?.price}
                   </h4>
                 </div>
                 <div className="flex gap-10 items-center">
@@ -121,9 +123,7 @@ const SingleBookPage = () => {
                     <button className="cursor-pointer col-span-4 bg-purple-them rounded-lg text-white flex items-center justify-center gap-2.5 hover:scale-105 duration-300">
                       Add To Cart <GrCart className="text-xl" />
                     </button>
-                    <button className="cursor-pointer rounded-lg border border-purple-them p-3 flex justify-center items-center hover:scale-105 duration-300">
-                      <CiHeart className="text-purple-them text-2xl " />
-                    </button>
+                    <AddToWishListBtn />
                   </div>
                 </div>
               </div>
@@ -144,7 +144,7 @@ const SingleBookPage = () => {
           </div>
         </div>
       </div>
-      <BottomSectionSingleBook />
+      <BottomSectionSingleBook book={currentBook} recomBooks={recomBooks} />
     </div>
   );
 };

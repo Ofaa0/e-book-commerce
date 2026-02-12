@@ -3,7 +3,7 @@ import { bottomSectionSingleBookTabs } from "../../localStore";
 import ReviewCard from "./ReviewCard";
 import RecommendedSection from "../homeComponents/RecommendedSection";
 
-const BottomSectionSingleBook = () => {
+const BottomSectionSingleBook = ({book,recomBooks}) => {
   const [tab, setTab] = useState(null);
   const [id, setId] = useState(0);
 
@@ -31,31 +31,31 @@ const BottomSectionSingleBook = () => {
                 <span className="font-bold text-[20px] text-base-strong-text">
                   Book Title :{" "}
                 </span>
-                Rich Dad And Poor Dad
+                {book.bookName}
               </p>
               <p>
                 <span className="font-bold text-[20px] text-base-strong-text">
                   Author :{" "}
                 </span>
-                Robert T. Kiyosaki
+                {book.author}
               </p>
               <p>
                 <span className="font-bold text-[20px] text-base-strong-text">
                   Publication Date :{" "}
                 </span>
-                1997
+                {book.publicationYear}
               </p>
               <p>
                 <span className="font-bold text-[20px] text-base-strong-text">
                   ASIN :{" "}
                 </span>
-                B09TWSRMCB
+                {book.asinCode}
               </p>
               <p>
                 <span className="font-bold text-[20px] text-base-strong-text">
                   Language :{" "}
                 </span>
-                English
+                {book.lang}
               </p>
               <p>
                 <span className="font-bold text-[20px] text-base-strong-text">
@@ -67,13 +67,13 @@ const BottomSectionSingleBook = () => {
                 <span className="font-bold text-[20px] text-base-strong-text">
                   Pages :{" "}
                 </span>
-                336
+                {book.numberOfPages}
               </p>
               <p>
                 <span className="font-bold text-[20px] text-base-strong-text">
                   Book Format :{" "}
                 </span>
-                Hard Cover
+                {book.bookFormat}
               </p>
               <p>
                 <span className="font-bold text-[20px] text-base-strong-text">
@@ -95,7 +95,7 @@ const BottomSectionSingleBook = () => {
           )}
           {id == 3 && (
             <div>
-              <RecommendedSection extraStyle={"py-0!"} />
+              <RecommendedSection recomBooks={recomBooks} extraStyle={"py-0!"} />
             </div>
           )}
         </div>

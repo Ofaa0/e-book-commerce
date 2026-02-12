@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import logo from "../../../public/logo.png";
 import { IoMenuSharp, IoSearchOutline } from "react-icons/io5";
 import { GrMicrophone } from "react-icons/gr";
-import { url, useAuthStore, useUserInfoStore } from "../../store";
+import { url, useAuthStore, useUserInfoStore, useWishList } from "../../store";
 import { FaRegHeart } from "react-icons/fa";
 import { GrCart } from "react-icons/gr";
 import { FaCircleUser } from "react-icons/fa6";
@@ -19,10 +19,13 @@ const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const { pathname } = useLocation();
   const { token } = useAuthStore();
+  const { wishlistLength } = useWishList();
+
   const isInfoPages =
     pathname === "/login" ||
     pathname === "/signup" ||
     pathname === "/profile" ||
+    pathname === "/new-password" ||
     pathname === "/reset-password";
   const isAboutOrInfoPage =
     pathname === "/login" ||
@@ -30,6 +33,8 @@ const Navbar = () => {
     pathname === "/about" ||
     pathname.includes("/books") ||
     pathname === "/profile" ||
+    pathname === "/new-password" ||
+    pathname === "/wishlist" ||
     pathname === "/reset-password";
 
   const [userInfo, setUserInfo] = useState({});
@@ -37,21 +42,21 @@ const Navbar = () => {
     "py-3 px-4 font-open border-purple-them border rounded-lg cursor-pointer duration-300";
 
   const getUserProfileInfo = async () => {
-    console.log(token);
+    // console.log(token);
     try {
       const res = await axios.get(url + "/profile", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(res.data.data);
+      // console.log(res.data.data);
       setUserInfo({
         firstName: res.data?.data?.first_name,
         lastName: res.data?.data?.last_name,
         email: res.data?.data?.email,
       });
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   };
 
@@ -65,7 +70,7 @@ const Navbar = () => {
 
   return (
     <header
-      className={`bg-[url(../../../public/headerBg1.png)] w-full ${isInfoPages ? "h-84.5" : pathname.includes("/books") ? "h-35" : "h-dvh"} bg-left bg-cover bg-no-repeat relative ${isInfoPages ? "hidden" : "flex"} lg:flex justify-center items-center `}
+      className={`bg-[url(../../../public/headerBg1.png)] w-full ${isInfoPages ? "h-84.5" : (pathname.includes("/books") || pathname.includes("/wishlist")) ? "h-35" : "h-dvh"} bg-left bg-cover bg-no-repeat relative ${isInfoPages ? "hidden" : "flex"} lg:flex justify-center items-center `}
     >
       <div className="bg-black/70 w-full h-full absolute left-0 top-0"></div>
       {!isAboutOrInfoPage && (
@@ -149,12 +154,12 @@ const Navbar = () => {
                 </div>
               ) : (
                 <div className="flex gap-6 lg:items-center items-start flex-col lg:flex-row w-full lg:w-fit">
-                  <div className="relative">
+                  <Link to={"/wishlist"} className="relative">
                     <span className="bg-purple-them text-white w-5 h-5 rounded-full flex justify-center items-center absolute -top-2 -right-3">
-                      0
+                      {wishlistLength}
                     </span>
                     <FaRegHeart className="text-2xl cursor-pointer" />
-                  </div>
+                  </Link>
                   <div className="relative">
                     <span className="bg-purple-them text-white w-5 h-5 rounded-full flex justify-center items-center absolute -top-2 -right-3">
                       0

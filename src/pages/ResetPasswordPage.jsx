@@ -1,13 +1,15 @@
 import { Form, Formik } from "formik";
 import ResetInputField from "../components/resetPasswordComponents/ResetInputField";
 import { useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
-import { useAuthStore } from "../store";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuthStore, useHandlePassword } from "../store";
 
 const ResetPasswordPage = () => {
   const { user } = useAuthStore();
-  console.log("from reset pass = >", user);
-  
+  const { setOTP } = useHandlePassword();
+  const navigate = useNavigate();
+  // console.log("from reset pass = >", user);
+
   const length = 4;
   const inputsRef = useRef([]);
 
@@ -34,6 +36,8 @@ const ResetPasswordPage = () => {
 
   const handleResetPassword = (vals) => {
     const inputsCode = vals.code.join("");
+    setOTP(inputsCode);
+    navigate("/new-password")
   };
   return (
     <div className="w-full min-h-dvh bg-white-bg flex justify-center items-start pt-10">

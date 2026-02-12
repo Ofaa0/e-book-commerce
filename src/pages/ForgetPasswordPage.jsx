@@ -1,27 +1,20 @@
 import { ErrorMessage, Form, Formik } from "formik";
 import InputField from "../components/loginComponents/InputField";
 import axios from "axios";
-import { url } from "../store";
+import { url, useHandlePassword } from "../store";
 import * as Yup from "yup";
 import BackBtnPageName from "../components/loginComponents/BackBtnPageName";
+import { useNavigate } from "react-router-dom";
 
 const ForgetPasswordPage = () => {
+  const { setEmail } = useHandlePassword();
+  const navigate = useNavigate()
   const validationForgetPasswordSchema = Yup.object({
     email: Yup.string().email().required(),
   });
   const handleForgetPassword = async (vals) => {
-    const fd = new FormData();
-    fd.append("email", vals.email);
-    try {
-      const res = await axios.post(url + "/forget-password", fd, {
-        headers: {
-          Accept: "application/json",
-        },
-      });
-      console.log(res.data);
-    } catch (err) {
-      console.log(err);
-    }
+    setEmail(vals.email)
+    navigate("/reset-password")
   };
 
   return (

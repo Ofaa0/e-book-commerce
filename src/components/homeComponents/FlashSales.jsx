@@ -16,10 +16,10 @@ const FlashSales = () => {
   const getRecommendedBooks = async () => {
     try {
       const res = await axios.get(url + "/home");
-      console.log(res.data.data.recommended);
+      // console.log(res.data.data.recommended);
       setHomeBooks(res.data?.data?.recommended);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   };
   useEffect(() => {

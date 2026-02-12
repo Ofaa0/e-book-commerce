@@ -142,26 +142,31 @@ export const dropdownList = [
     id: 1,
     icon: LuUser,
     label: "Profile",
+    path: "profile"
   },
   {
     id: 2,
     icon: TbClockHour3,
     label: "Order History",
+    path: "order-history"
   },
   {
     id: 3,
     icon: CiLocationOn,
     label: "Address",
+    path: "address"
   },
   {
     id: 4,
     icon: AiOutlineExclamationCircle,
     label: "Help",
+    path: "help"
   },
   {
     id: 5,
     icon: MdOutlineLogout,
     label: "Logout",
+    path: "login"
   },
 ];
 export const paginationBtns = [
