@@ -7,6 +7,7 @@ import { CiHeart } from "react-icons/ci";
 import { GrCart } from "react-icons/gr";
 import { useLocation } from "react-router-dom";
 import AddToWishListBtn from "../wishListComponents/AddToWishListBtn";
+import AddToCartBtn from "../cartComponents/AddToCartBtn";
 
 const RecommendedSection = ({ extraStyle, recomBooks }) => {
   const { pathname } = useLocation();
@@ -80,9 +81,7 @@ const RecommendedSection = ({ extraStyle, recomBooks }) => {
                     </div>
                   </div>
                   <div className="grid grid-cols-5 gap-4">
-                    <button className="cursor-pointer col-span-4 bg-purple-them rounded-lg text-white flex items-center justify-center gap-2.5 hover:scale-105 duration-300">
-                      Add To Cart <GrCart className="text-xl" />
-                    </button>
+                    <AddToCartBtn bookId={el.bookId} />
                     <AddToWishListBtn bookId={el.bookId} />
                   </div>
                 </div>

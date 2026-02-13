@@ -1,6 +1,14 @@
 import { Field } from "formik";
 
-const InputField = ({ name, label, type, placeHolder, isDisabled , labelStyle }) => {
+const InputField = ({
+  name,
+  label,
+  type,
+  placeHolder,
+  isDisabled,
+  labelStyle,
+  inpStyle,
+}) => {
   return (
     <label
       className={`text-black pb-2 text-[16px] lg:text-[18px] font-semibold leading-[21.75px] w-full ${labelStyle}`}
@@ -12,7 +20,7 @@ const InputField = ({ name, label, type, placeHolder, isDisabled , labelStyle })
         type={type}
         name={name}
         placeholder={placeHolder}
-        className="bg-white text-black w-full rounded-lg p-4 py-3.5 lg:py-4 border border-[#22222233] text-[12px] lg:text-[16px] font-normal"
+        className={`bg-white text-black w-full rounded-lg p-4 py-3.5 lg:py-4 border border-[#22222233] text-[12px] lg:text-[16px] font-normal ${inpStyle}`}
       />
     </label>
   );

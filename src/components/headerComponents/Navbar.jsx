@@ -2,7 +2,13 @@ import { Link, useLocation } from "react-router-dom";
 import logo from "../../../public/logo.png";
 import { IoMenuSharp, IoSearchOutline } from "react-icons/io5";
 import { GrMicrophone } from "react-icons/gr";
-import { url, useAuthStore, useUserInfoStore, useWishList } from "../../store";
+import {
+  url,
+  useAuthStore,
+  useCart,
+  useUserInfoStore,
+  useWishList,
+} from "../../store";
 import { FaRegHeart } from "react-icons/fa";
 import { GrCart } from "react-icons/gr";
 import { FaCircleUser } from "react-icons/fa6";
@@ -20,6 +26,7 @@ const Navbar = () => {
   const { pathname } = useLocation();
   const { token } = useAuthStore();
   const { wishlistLength } = useWishList();
+  const { cartLength } = useCart();
 
   const isInfoPages =
     pathname === "/login" ||
@@ -35,6 +42,8 @@ const Navbar = () => {
     pathname === "/profile" ||
     pathname === "/new-password" ||
     pathname === "/wishlist" ||
+    pathname === "/cart" ||
+    pathname === "/checkInfo" ||
     pathname === "/reset-password";
 
   const [userInfo, setUserInfo] = useState({});
@@ -70,7 +79,7 @@ const Navbar = () => {
 
   return (
     <header
-      className={`bg-[url(../../../public/headerBg1.png)] w-full ${isInfoPages ? "h-84.5" : (pathname.includes("/books") || pathname.includes("/wishlist")) ? "h-35" : "h-dvh"} bg-left bg-cover bg-no-repeat relative ${isInfoPages ? "hidden" : "flex"} lg:flex justify-center items-center `}
+      className={`bg-[url(../../../public/headerBg1.png)] w-full ${isInfoPages ? "h-84.5" : pathname.includes("/books") || pathname.includes("/wishlist") || pathname.includes("/cart") || pathname.includes("/checkInfo") ? "h-35" : "h-dvh"} bg-left bg-cover bg-no-repeat relative ${isInfoPages ? "hidden" : "flex"} lg:flex justify-center items-center `}
     >
       <div className="bg-black/70 w-full h-full absolute left-0 top-0"></div>
       {!isAboutOrInfoPage && (
@@ -160,12 +169,13 @@ const Navbar = () => {
                     </span>
                     <FaRegHeart className="text-2xl cursor-pointer" />
                   </Link>
-                  <div className="relative">
+                  <Link to={"/cart"} className="relative">
                     <span className="bg-purple-them text-white w-5 h-5 rounded-full flex justify-center items-center absolute -top-2 -right-3">
-                      0
+                      {cartLength}
                     </span>
                     <GrCart className="text-2xl cursor-pointer" />
-                  </div>
+                  </Link>
+
                   <div className="flex items-center gap-3">
                     <FaCircleUser className="text-4xl" />
                     <div className="flex flex-col">

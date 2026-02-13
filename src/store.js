@@ -68,3 +68,10 @@ export const useWishList = create((set) => ({
   },
   
 }));
+export const useCart = create((set) => ({
+  cartLength: 0,
+  setCartLength: (length) => {
+    set({ cartLength: length });
+  },
+  
+}));

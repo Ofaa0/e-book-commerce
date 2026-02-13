@@ -1,16 +1,16 @@
-import DeleteFromWishlistBtn from "./DeleteFromWishlistBtn";
 import axios from "axios";
 import { url, useAuthStore } from "../../store";
 import { useState } from "react";
+import DeleteFromCart from "./DeleteFromCart";
 
-const WishCard = ({ book }) => {
-  console.log("wishcard ====>=>>", book);
+const CartCard = ({ cart, book }) => {
+  console.log("CartCard ====>=>>", book);
   const { token } = useAuthStore();
-  const [qty, setQty] = useState(book?.quantity || 1);
+  const [qty, setQty] = useState(cart?.qty || 1);
   const editQty = async (qty) => {
     try {
       const res = await axios.put(
-        url + `/wishlist/update/${book?.book?.bookId}`,
+        url + `/cart/update/${book?.bookId}`,
         {
           qty: qty,
         },
@@ -33,15 +33,12 @@ const WishCard = ({ book }) => {
         <img src="/public/1.png" alt="book image" className="h-[253px] grow" />
         <div>
           <div>
-            <h1 className="font-bold text-[18px] mb-1">
-              {book?.book?.bookName}
-            </h1>
+            <h1 className="font-bold text-[18px] mb-1">{book?.bookName}</h1>
             <p className="mb-2">
-              Author:{" "}
-              <span className="font-semibold">{book?.book?.author}</span>
+              Author: <span className="font-semibold">{book?.author}</span>
             </p>
           </div>
-          <p className="mb-8.75">{book?.book?.description}</p>
+          <p className="mb-8.75">{book?.description}</p>
           <div className="flex items-center mb-8 gap-2 border rounded-lg bg-white py-2 px-3 text-base-text w-fit">
             <img
               src="/public/shipping-fast.png"
@@ -51,7 +48,7 @@ const WishCard = ({ book }) => {
             <p>Free Shipping</p>
           </div>
           <p>
-            ASIN: <span>{book?.book?.asinCode}</span>
+            ASIN: <span>{book?.asinCode}</span>
           </p>
         </div>
       </div>
@@ -81,14 +78,14 @@ const WishCard = ({ book }) => {
         </button>
       </div>
       <p className="flex items-center justify-center text-2xl text-base-strong-text font-semibold">
-        ${book?.book?.final_price}
+        ${book?.final_price}
       </p>
       <p className="flex items-center justify-center text-2xl text-base-strong-text font-semibold">
-        ${book?.book?.final_price * book?.quantity}
+        ${cart?.price * cart?.qty}
       </p>
-      <DeleteFromWishlistBtn bookId={book?.book?.bookId} />
+      <DeleteFromCart bookId={book?.bookId} />
     </div>
   );
 };
 
-export default WishCard;
+export default CartCard;

@@ -9,6 +9,7 @@ import { GrCart } from "react-icons/gr";
 import { singleBookImages } from "../localStore";
 import BottomSectionSingleBook from "../components/singleBookComponents/BottomSectionSingleBook";
 import AddToWishListBtn from "../components/wishListComponents/AddToWishListBtn";
+import AddToCartBtn from "../components/cartComponents/AddToCartBtn";
 
 const SingleBookPage = () => {
   const [img, setImg] = useState(null);
@@ -120,10 +121,8 @@ const SingleBookPage = () => {
                     </button>
                   </div>
                   <div className="grid grid-cols-5 gap-4">
-                    <button className="cursor-pointer col-span-4 bg-purple-them rounded-lg text-white flex items-center justify-center gap-2.5 hover:scale-105 duration-300">
-                      Add To Cart <GrCart className="text-xl" />
-                    </button>
-                    <AddToWishListBtn />
+                    <AddToCartBtn bookId={currentBook?.bookId} />
+                    <AddToWishListBtn bookId={currentBook?.bookId} />
                   </div>
                 </div>
               </div>

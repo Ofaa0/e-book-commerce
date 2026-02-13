@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { paginationBtns } from "../localStore";
 import Loading from "../components/Loading";
 import AddToWishListBtn from "../components/wishListComponents/AddToWishListBtn";
+import AddToCartBtn from "../components/cartComponents/AddToCartBtn";
 
 const BooksPage = () => {
   const [loading, setLoading] = useState(true);
@@ -74,7 +75,7 @@ const BooksPage = () => {
       // console.log(res.data?.data?.categories);
       setLoading(false);
 
-      console.log("=====>",res.data.data.books);
+      console.log("=====>", res.data.data.books);
     } catch (err) {
       // console.log(err);
       setLoading(false);
@@ -215,9 +216,7 @@ const BooksPage = () => {
                             </p>
                           </div>
                           <div className="grid grid-cols-5 gap-4">
-                            <button className="cursor-pointer col-span-4 bg-purple-them rounded-lg text-white flex items-center justify-center gap-2.5 hover:scale-105 duration-300">
-                              Add To Cart <GrCart className="text-xl" />
-                            </button>
+                            <AddToCartBtn bookId={el?.bookId} />
                             <AddToWishListBtn bookId={el?.bookId} />
                           </div>
                         </div>

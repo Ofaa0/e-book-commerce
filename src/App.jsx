@@ -15,6 +15,8 @@ import ProfilePage from "./pages/ProfilePage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import NewPasswordPage from "./pages/NewPasswordPage";
 import WishListPage from "./pages/WishListPage";
+import CartPage from "./pages/CartPage";
+import CheckInfoConfirm from "./pages/CheckInfoConfirm";
 
 function App() {
   const stored =
@@ -74,6 +76,22 @@ function App() {
                 element={
                   <ProtectedHomeRoute>
                     <ProfilePage />
+                  </ProtectedHomeRoute>
+                }
+              ></Route>
+              <Route
+                path="/checkInfo"
+                element={
+                  <ProtectedHomeRoute>
+                    <CheckInfoConfirm />
+                  </ProtectedHomeRoute>
+                }
+              ></Route>
+              <Route
+                path="/cart"
+                element={
+                  <ProtectedHomeRoute>
+                    <CartPage />
                   </ProtectedHomeRoute>
                 }
               ></Route>
